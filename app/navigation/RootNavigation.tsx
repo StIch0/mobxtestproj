@@ -1,13 +1,13 @@
 import { NavigationProp, useNavigation } from '@react-navigation/core';
 import { useTheme } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { runInAction } from 'mobx';
-import React, { useEffect } from 'react';
+import {
+  createNativeStackNavigator,
+  NativeStackNavigationOptions,
+} from '@react-navigation/native-stack';
+import React from 'react';
 import addIcon from '../res/add';
-import chevronInCircle from '../res/chevronCircle';
 import Noodle from '../screens/noodle';
 import NoodlesList from '../screens/noodlesList';
-import { useNoodlesListStore } from '../stores/NoodlesStore';
 import { RootStackParamList } from './types';
 
 const RootStackNavigator = () => {
@@ -23,30 +23,29 @@ const RootStackNavigator = () => {
 
   const { dark } = useTheme();
 
+  const noodlesOptions: NativeStackNavigationOptions = {
+    headerTitle: 'МОЯ ЛАПША',
+    headerRight: AddIcon,
+    headerTitleStyle: {
+      color: dark ? '#ffffff' : '#222222',
+    },
+  };
+
+  const noodleOptions: NativeStackNavigationOptions = {
+    ...noodlesOptions,
+    headerTitle: 'ЛАПША',
+    headerBackTitle: 'Назад',
+    headerRight: undefined,
+  };
+
   return (
     <Stack.Navigator>
       <Stack.Screen
         name='NoodlesList'
         component={NoodlesList}
-        options={{
-          headerTitle: 'МОЯ ЛАПША',
-          headerRight: AddIcon,
-          headerTitleStyle: {
-            color: dark ? '#ffffff' : '#222222',
-          },
-        }}
+        options={noodlesOptions}
       />
-      <Stack.Screen
-        name='Noodle'
-        component={Noodle}
-        options={{
-          headerTitle: 'ЛАПША',
-          headerBackTitle: 'Назад',
-          headerTitleStyle: {
-            color: dark ? '#ffffff' : '#222222',
-          },
-        }}
-      />
+      <Stack.Screen name='Noodle' component={Noodle} options={noodleOptions} />
     </Stack.Navigator>
   );
 };

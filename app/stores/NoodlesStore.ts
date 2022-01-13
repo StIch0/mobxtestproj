@@ -1,13 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {
-  action,
-  computed,
-  makeObservable,
-  observable,
-  runInAction,
-} from 'mobx';
+import { action, computed, makeObservable, observable } from 'mobx';
 import { makePersistable } from 'mobx-persist-store';
-import { fromPromise } from 'mobx-utils';
 import { createContext, useContext } from 'react';
 import { NoodleItem } from '../screens/noodlesList/types';
 
