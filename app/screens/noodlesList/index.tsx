@@ -1,4 +1,4 @@
-import { runInAction, when } from 'mobx';
+import { runInAction } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import React, { ReactElement, useEffect, useState } from 'react';
 import {
@@ -10,9 +10,7 @@ import {
 import { SwipeListView } from 'react-native-swipe-list-view';
 import ImageZoomList from '../../commons/components/ImageZoomList';
 import noSpaceString from '../../commons/helpers/noSpaceString';
-import { useCharacterListStore } from '../../stores/CharacterStore';
 import { useNoodlesChListStore } from '../../stores/NoodleChStore';
-import { useNoodlesListStore } from '../../stores/NoodlesStore';
 import HiddenItem from './components/HiddenItem';
 import NoodleItemView from './components/NoodleItemView';
 
@@ -27,15 +25,10 @@ const keyExtractor = (id: string) => id;
 const NoodlesList = observer(({}) => {
   const {
     noodleStore: { noodlesIdxItems, noodlesRecord },
-    chStore: { getChList, charList },
   } = useNoodlesChListStore();
 
   const [list, setList] = useState<string[]>([]);
   const [searchValue, setSearchValue] = useState('');
-
-  useEffect(() => {
-    getChList();
-  }, []);
 
   useEffect(() => {
     if (searchValue) {
@@ -70,14 +63,12 @@ const NoodlesList = observer(({}) => {
   };
 
   const onPressImage = (noodleId: string): void => {
-    // runInAction(() => {
     const noodleItem = noodlesRecord[noodleId];
 
     const urlsList = noodleItem?.photos.map((url) => ({ url })) || [];
 
     setImageUrls(() => urlsList);
     setZoomImageVisible(() => true);
-    // });
   };
 
   const onPressCancel = (): void => {
